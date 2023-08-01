@@ -12,7 +12,7 @@ def home():
     return render_template("index.html")
 
 @app.route('/predict_api',methods=['POST'])
-def predict_api:
+def predict_api():
     data = request.json['data']
     print(data)
 

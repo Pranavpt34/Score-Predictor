@@ -1,0 +1,41 @@
+/* Add CSS style for the text and background */
+body {
+    /* display: flex;
+    justify-content: center; */
+    height: 100vh;
+    /* background-color: #f0f0f0; Set the background color */
+    background-image: url('https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+    background-size: cover; /* Adjust the size of the background to cover the entire screen */
+}
+
+/* Add CSS style for the color transition */
+.color-transition {
+    text-align: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: #e5db01;
+    height: 10%; /* Set the height to match the height of the text container */
+    font-family: cursive;
+}
+
+/* Hide all letters by default */
+.hidden {
+    display: none;
+    /* color: white; */
+}
+.dropdown {
+    margin-right: 20px;
+    font-family: cursive;
+    color: white;
+}
+#drop {
+    display: flex;
+    margin-top: 2%;
+    justify-content: space-evenly; /* Add the space between the dropdowns */
+    z-index: 9999; /* Ensure the dropdowns are on top of other elements */
+}
+.link{
+    float: right; /* Move the button to the right */
+    
+}
