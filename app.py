@@ -30,9 +30,9 @@ def get_players():
 
 @app.route('/get_grounds', methods=['POST'])
 def get_grounds():
-    data = request.json
-
+    print("helo")
     grounds = df['Ground'].unique().tolist()
+    print(grounds[1])
     return jsonify({'grounds': grounds})
 
 # grounds = df[(df['Team'] == selected_team) & (df['Player'] == selected_player)]['Ground'].unique().tolist()
@@ -47,17 +47,17 @@ def submit_players():
 
 
 
-# @app.route('/submit_selection', methods=['POST'])
-# def submit_selection():
-#     data = request.json
-#     selected_team = data['selected_team']
-#     selected_player = data['selected_player']
-#     selected_ground = data['selected_ground']
-#     # Process the selected data as required
-#     print(f'Selected Team: {selected_team}')
-#     print(f'Selected Player: {selected_player}')
-#     print(f'Selected Ground: {selected_ground}')
-#     return jsonify({'message': 'Selection submitted successfully!'})
+@app.route('/submit_selection', methods=['POST'])
+def submit_selection():
+    data = request.json
+    selected_team = data['selected_team']
+    selected_player = data['selected_player']
+    selected_ground = data['selected_ground']
+    # Process the selected data as required
+    print(f'Selected Team: {selected_team}')
+    print(f'Selected Player: {selected_player}')
+    print(f'Selected Ground: {selected_ground}')
+    return jsonify({'message': 'Selection submitted successfully!'})
 
 # @app.route('/get_average_strikerate', methods=['POST'])
 # def get_average_strikerate():

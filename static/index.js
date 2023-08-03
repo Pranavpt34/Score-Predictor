@@ -24,44 +24,6 @@ function hideAllLetters() {
 showNextLetter(); // Start the sequence
 
 
-// function fetchTeams() {
-//     console.log("hai")
-//     fetch('/get_teams')
-//         .then(response => response.json())
-//         .then(data => {
-//             const teamDropdown = document.getElementById('team-dropdown');
-//             const teams = data.teams; // Extract the teams array from the JSON response
-//             teams.forEach(team => {
-//                 const option = document.createElement('option');
-//                 option.value = team;
-//                 option.textContent = team;
-//                 teamDropdown.appendChild(option);
-//             });
-//         })
-//         .catch(error => console.error('Error fetching teams:', error));
-// }
-
-// function selectTeam() {
-//     const selectedTeam = document.getElementById('team-dropdown').value;
-//     if (selectedTeam) {
-//         // Send the selected team to the Flask backend using AJAX
-//         fetch('/select_team', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ 'team': selectedTeam })
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(data.message);
-//         })
-//         .catch(error => {
-//             console.error('Error selecting team:', error);
-//         });
-//     }
-// }
-
 // Fetch teams when the page loads
 
 function fetchTeams() {
@@ -82,42 +44,7 @@ function fetchTeams() {
 
 
 
-// old function
-// function fetchPlayers() {
-//     const selectedTeam = document.getElementById('team-dropdown').value;
-//     if (selectedTeam) {
-//         fetch('/get_players', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ 'selected_team': selectedTeam })
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log("data",data.players)
-//             // const playerDropdown = document.getElementById('player-dropdown');
-//             // playerDropdown.innerHTML = ''; // Clear previous options
-//             // data.players.forEach(player => {
-//             //     const option = document.createElement('option');
-//             //     option.value = player;
-//             //     option.textContent = player;
-//             //     playerDropdown.appendChild(option);
-//             // });
-//             // playerDropdown.disabled = false; // Enable player dropdown
-            
-//         })
-//         .catch(error => console.error('Error fetching players:', error));
-//     }
-// }
-// function createCheckboxes() {
-//     const checkboxContainer = document.getElementById("checkboxContainer");
-  
-//     data.forEach((item) => {
-//       const checkboxDiv = createCheckbox(item);
-//       checkboxContainer.appendChild(checkboxDiv);
-//     });
-//   }
+
 function fetchPlayers() {
     const selectedTeam = document.getElementById('team-dropdown').value;
     if (selectedTeam) {
@@ -185,34 +112,24 @@ function submitPlayerSelection() {
   }
 
 function fetchGrounds() {
+    console.log("hello ground1")
     const selectedTeam = document.getElementById('team-dropdown').value;
-    const selectedPlayer = document.getElementById('player-dropdown').value;
-    if (selectedTeam && selectedPlayer) {
-        fetch('/get_grounds', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'selected_team': selectedTeam,
-                'selected_player': selectedPlayer
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const groundDropdown = document.getElementById('ground-dropdown');
-            groundDropdown.innerHTML = ''; // Clear previous options
-            data.grounds.forEach(ground => {
-                const option = document.createElement('option');
-                option.value = ground;
-                option.textContent = ground;
-                groundDropdown.appendChild(option);
-            });
-            groundDropdown.disabled = false; // Enable ground dropdown
-            document.getElementById('submit-button').disabled = false; // Enable submit button
-        })
-        .catch(error => console.error('Error fetching grounds:', error));
-    }
+    console.log(selectedTeam)
+    fetch('/get_grounds')
+    .then(response => response.json())
+    .then(data => {
+        const groundDropdown = document.getElementById('ground-dropdown');
+        groundDropdown.innerHTML = ''; // Clear previous options
+        data.grounds.forEach(ground => {
+            const option = document.createElement('option');
+            option.value = ground;
+            option.textContent = ground;
+            groundDropdown.appendChild(option);
+        });
+        groundDropdown.disabled = false; // Enable ground dropdown
+        document.getElementById('submit-button').disabled = false; // Enable submit button
+    })
+    .catch(error => console.error('Error fetching grounds:', error));
 }
 
 function enableSubmitButton() {
@@ -220,13 +137,13 @@ function enableSubmitButton() {
 }
 
 function submitSelection() {
+    const selectedPlayers = Array.from(document.querySelectorAll('input[name="players"]:checked')).map(checkbox => checkbox.value);
     const selectedTeam = document.getElementById('team-dropdown').value;
-    const selectedPlayer = document.getElementById('player-dropdown').value;
     const selectedGround = document.getElementById('ground-dropdown').value;
 
     const requestData = {
         'selected_team': selectedTeam,
-        'selected_player': selectedPlayer,
+        'selected_player': selectedPlayers,
         'selected_ground': selectedGround
     };
 
@@ -245,3 +162,4 @@ function submitSelection() {
 }
 
 fetchTeams(); 
+fetchGrounds();
