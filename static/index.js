@@ -30,7 +30,6 @@ function fetchTeams() {
     fetch('/get_teams')
         .then(response => response.json())
         .then(data => {
-            console.log("Here it is",data)
             const teamDropdown = document.getElementById('team-dropdown');
             data.teams.forEach(team => {
                 const option = document.createElement('option');
@@ -44,7 +43,7 @@ function fetchTeams() {
 
 
 
-
+//fetch players
 function fetchPlayers() {
     const selectedTeam = document.getElementById('team-dropdown').value;
     if (selectedTeam) {
@@ -57,7 +56,6 @@ function fetchPlayers() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log("data", data.players)
           const checkboxContainer = document.getElementById("checkboxContainer");
           checkboxContainer.innerHTML = ''; // Clear previous checkboxes
 
@@ -91,55 +89,33 @@ function fetchPlayers() {
     return checkboxDiv;
   }
 
-// submit form to player list to backend
-function submitPlayerSelection() {
-    const selectedPlayers = Array.from(document.querySelectorAll('input[name="players"]:checked')).map(checkbox => checkbox.value);
-    console.log("Here is data",selectedPlayers)
-    // Replace '/submit_players' with the actual endpoint URL in your Flask app
-    fetch('/submit_players', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 'selected_players': selectedPlayers })
-    })
+// fetch demo
+function fetchGrounds() {
+  fetch('/get_grounds')
       .then(response => response.json())
       .then(data => {
-        // Handle the response from the Flask server if needed
-        console.log(data);
-      })
-      .catch(error => console.error('Error submitting players:', error));
-  }
-
-function fetchGrounds() {
-    console.log("hello ground1")
-    const selectedTeam = document.getElementById('team-dropdown').value;
-    console.log(selectedTeam)
-    fetch('/get_grounds')
-    .then(response => response.json())
-    .then(data => {
-        const groundDropdown = document.getElementById('ground-dropdown');
-        groundDropdown.innerHTML = ''; // Clear previous options
-        data.grounds.forEach(ground => {
-            const option = document.createElement('option');
-            option.value = ground;
-            option.textContent = ground;
-            groundDropdown.appendChild(option);
-        });
-        groundDropdown.disabled = false; // Enable ground dropdown
+          const groundDropdown = document.getElementById('ground-dropdown');
+          groundDropdown.innerHTML = ''; // Clear previous options
+          data.grounds.forEach(ground => {
+              const option = document.createElement('option');
+              option.value = ground;
+              option.textContent = ground;
+              groundDropdown.appendChild(option);
+          });
+          groundDropdown.disabled = false; // Enable ground dropdown
         document.getElementById('submit-button').disabled = false; // Enable submit button
-    })
-    .catch(error => console.error('Error fetching grounds:', error));
+      })
+      .catch(error => console.error('Error fetching teams:', error));
 }
-
 function enableSubmitButton() {
     document.getElementById('submit-button').disabled = false;
 }
-
 function submitSelection() {
     const selectedPlayers = Array.from(document.querySelectorAll('input[name="players"]:checked')).map(checkbox => checkbox.value);
     const selectedTeam = document.getElementById('team-dropdown').value;
     const selectedGround = document.getElementById('ground-dropdown').value;
+
+    document.getElementById("submit-button").disabled = true;
 
     const requestData = {
         'selected_team': selectedTeam,
@@ -147,16 +123,51 @@ function submitSelection() {
         'selected_ground': selectedGround
     };
 
-    fetch('/submit_selection', {
+    // window.location = window.location.href;
+    fetch('/submit_selection',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestData)
-    })
-    .then(response => response.json)
+      })
+    .then(response => response.json())
     .then(data => {
-        console.log(data.message);
+      console.log(data)
+      const table = document.querySelector('.table')
+      console.log(table)
+
+      function generateTable(data) {
+        const table = document.getElementById("playerTable").getElementsByTagName('tbody')[0];
+  
+        for (const player in data) {
+          if (data.hasOwnProperty(player)) {
+            const row = table.insertRow();
+            const playerCell = row.insertCell();
+            const scoreCell = row.insertCell();
+            playerCell.innerHTML = player;
+            scoreCell.innerHTML = data[player];
+          }
+        }
+      }
+
+      generateTable(data)
+
+      // Show the predicted scores on the frontend
+      // const predictedScoresElement = document.getElementById('predicted-scores');
+      // predictedScoresElement.innerHTML = ''; // Clear previous content
+
+      // for (const player in data.predicted_scores) {
+      //   const scoreElement = document.createElement('p');
+      //   scoreElement.textContent = `${player}: ${data.predicted_scores[player]}`;
+      //   predictedScoresElement.appendChild(scoreElement);
+      // }
+        // const formElement = document.getElementById('team-dropdown');
+        // formElement.selectedIndex = 0;
+
+        // const checkboxContainer = document.getElementById('checkboxContainer');
+        // checkboxContainer.innerHTML = ""
+
     })
     .catch(error => console.error('Error submitting selection:', error));
 }
