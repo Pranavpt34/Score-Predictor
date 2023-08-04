@@ -121,16 +121,14 @@ def team_score(player_list,location,Opposition):
     wickets =0
     score_card = {}
     for Player in player_list:
-
         BF= np.round(df_copy[(df_copy["Opposition"] == Opposition) & ((df_copy["Ground"] == location)&(df_copy["Player"] == Player))]["BF"].mean())
-        if BF is np.nan:
+        if np.isnan(BF):
             if Player in player_avg_performance and Opposition in player_avg_performance[Player]:
                 BF = np.round(player_avg_performance[Player][Opposition][1])
 
             else:
                 BF = np.round(avg_performance_dict[Player]["BF"])
 
-        BF = np.round(player_avg_performance[Player][Opposition][1])
 
         print("Player Name : ", Player)
         Pos = player_list.index(Player) + 1
@@ -139,7 +137,7 @@ def team_score(player_list,location,Opposition):
             wickets += 1
             print("Total Balls : ",Total_balls)
             print("Number of Balls faced by the Player ",BF)
-            runs += predict_run(location,BF,Pos,Opposition,Player)
+            runs += np.round(predict_run(location,BF,Pos,Opposition,Player))
             score_card[Player] = [int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]
         else:
             if 120 - Total_balls == 0:
@@ -156,6 +154,7 @@ def team_score(player_list,location,Opposition):
         print()
         print()
     score_card["Total Score"] = [int(runs), int(Total_balls)]
+    print(score_card)
     print("Runs Scored By Team  based on the Average performance of each Player  : ",np.round(runs), "with in ",Total_balls," Balls loosing ",wickets," Wickets")
     return score_card
 
