@@ -17,7 +17,7 @@
         <span class="hidden">k</span>
         <span class="hidden">e</span>
         <span class="hidden">t</span>
-        <a href="dashboard.html" class="btn btn-primary link mt-2 me-3">Go to Dashboard</a>
+        <a href="https://app.powerbi.com/view?r=eyJrIjoiOWNhY2MxNjUtMjIwYi00YzA5LTgwNWUtYzc0Mzg4Y2U0ZTZlIiwidCI6ImVhMWUyYzgyLTAwZTItNGY5OS05Y2Q0LTRlNDY0OWZlNTczNyJ9" class="btn btn-primary link mt-2 me-3">Go to Dashboard</a>
     </div>
 
 
@@ -40,12 +40,26 @@
             <button type="button" class="btn btn-secondary " aria-expanded="false">
               <div class="container">
                 <h4>Select Persons:</h4>
-                  <div class="form-group"  id="checkboxContainer"></div>
+                  <div class="form-group"  onchange="fetchOpposition()" id="checkboxContainer"></div>
               </div>
             </button>
 
           </div>
     </div>
+
+
+    
+  <div class="dropdown">
+    <label for="dropdown1">Select Opponent Team:</label>
+    <div class="btn-group">
+      <select id="opposition-dropdown" onchange="fetchGround()">
+        <option value="" selected disabled>Select a team</option>
+      </select>
+    </div>
+  </div>
+  
+
+
 
     <div class="dropdown">
         <label for="dropdown3">Select Ground:</label>
@@ -69,7 +83,8 @@
   <thead>
     <tr>
       <th scope="col">Player</th>
-      <th scope="col">Score</th>
+      <th scope="col">Run</th>
+      <th scope="col">ball</th>
     </tr>
   </thead>
   <tbody>

@@ -3,10 +3,13 @@ import pickle
 import numpy as np
 import pandas as pd
 import json
+import utils
 
 
 app = Flask(__name__)
 #model = pickle.load(open(""))
+
+
 
 @app.route('/')
 def home():
@@ -26,12 +29,24 @@ def get_players():
     selected_players = df[df['Team'] == selected_team]['Player'].unique().tolist()
     return jsonify({'players': selected_players})
 
+
+@app.route('/get_opposition', methods=['POST'])
+def get_opposition():
+    data = request.json
+    selected_team = data['selected_team']
+    opposition = df['Opposition'].unique().tolist()
+    opposition_team = [country for country in opposition if country != selected_team]
+    return jsonify({'opposition': opposition_team})
+
+
+
 @app.route('/get_grounds', methods=['GET'])
 def get_grounds():
     grounds = df['Ground'].unique().tolist()
     return jsonify({'grounds': grounds})
 
-# grounds = df[(df['Team'] == selected_team) & (df['Player'] == selected_player)]['Ground'].unique().tolist()
+
+
 #submit player list
 @app.route('/submit_players', methods=['POST'])
 def submit_players():
@@ -48,55 +63,105 @@ def submit_selection():
     selected_team = data['selected_team']
     selected_player = data['selected_player']
     selected_ground = data['selected_ground']
+    selected_opposition = data['selected_opposition']
     # Process the selected data as required
     print(f'Selected Team: {selected_team}')
     print("Selected Player",selected_player)
     print(f'Selected Ground: {selected_ground}')
-    predicted_scores = {
-        "player1": 85,
-        "player2": 92,
-        "player3": 78
-        # Add more players and their predicted scores
-    }
-    print(predicted_scores)
-    predicted = predict(selected_player,selected_ground)
+    print(f'Selected Opposition :{selected_opposition}')
+    import sklearn
+    print(sklearn.__version__)
+    import sys
+    print(sys.version)
+    
+    predicted_scores = team_score(selected_player,selected_ground,selected_opposition)
     return jsonify(predicted_scores)
 
-# @app.route('/get_average_strikerate', methods=['POST'])
-# def get_average_strikerate():
-#     data = request.json
-#     player_name = data['player_name']
-#     ground = data['ground']
-#     opposition_team = data['opposition_team']
 
-#     # Filter the dataframe based on user input
-#     filtered_df = df[
-#         (df['Player'] == player_name) &
-#         (df['Ground'] == ground) &
-#         (df['Opposition'] == opposition_team)
-#     ]
+#function for the prediction
 
-#     # Calculate the average strikerate for the filtered rows
-#     average_strikerate = filtered_df['SR'].mean()
 
-#     # Return the result as JSON
-#     return jsonify({'average_strikerate': average_strikerate})
+def team_score(player_list,location,Opposition):
+    df_copy = pd.read_csv("df_average.csv")
+    # global df_copy
+    with open('avg_performance_team.json', 'r') as json_file:
+        player_avg_performance = json.load(json_file)
 
-def predict(selected_player,selected_ground):
-    with open('columns.json') as f:
-        columns = json.load(f)
-        x = columns["data_columns"]
-    location="Mirpur"
-    selected_player,selected_ground
-    loc_index_ground = np.where(x==location)[0][0]
-    # loc_index_Player = np.where(x==Player)[0][0]
-    # loc_index_Opposition = np.where(x==Opposition)[0][0]
+    with open('total_avg_performance.json', 'r') as json_file:
+        avg_performance_dict = json.load(json_file)
+    
 
-    print(loc_index_ground)
-    predict_column = np.zeros(len(x))
+    global gb_regressor_wo_sr
+    with open("score_prediction_model.pickle", 'rb') as f:
+        gb_regressor_wo_sr = pickle.load(f)
 
-    predict_column[0] = BF
-    predict_column[1] = Pospo
+    def predict_run(location,BF,Pos,Opposition,Player):
+        with open('columns.json') as f:
+            columns = json.load(f)
+            x = columns["data_columns"]
+
+        loc_index_ground = x.index(location)
+        loc_index_Player = x.index(Player)
+        loc_index_Opposition = x.index(Opposition)
+
+        predict_column = np.zeros(len(x))
+
+        predict_column[0] = BF
+        predict_column[1] = Pos
+
+        predict_column[loc_index_ground] = 1
+        predict_column[loc_index_Opposition] = 1
+        predict_column[loc_index_Player] = 1
+
+        print("Runs predicted by GB  without SR : ",gb_regressor_wo_sr.predict([predict_column])[0])
+        return gb_regressor_wo_sr.predict([predict_column])[0]
+
+    runs = 0
+    Total_balls = 0
+    wickets =0
+    score_card = {}
+    for Player in player_list:
+
+        BF= np.round(df_copy[(df_copy["Opposition"] == Opposition) & ((df_copy["Ground"] == location)&(df_copy["Player"] == Player))]["BF"].mean())
+        if BF is np.nan:
+            if Player in player_avg_performance and Opposition in player_avg_performance[Player]:
+                BF = np.round(player_avg_performance[Player][Opposition][1])
+
+            else:
+                BF = np.round(avg_performance_dict[Player]["BF"])
+
+        BF = np.round(player_avg_performance[Player][Opposition][1])
+
+        print("Player Name : ", Player)
+        Pos = player_list.index(Player) + 1
+        if (Total_balls + BF) <= 120:
+            Total_balls = Total_balls + BF
+            wickets += 1
+            print("Total Balls : ",Total_balls)
+            print("Number of Balls faced by the Player ",BF)
+            runs += predict_run(location,BF,Pos,Opposition,Player)
+            score_card[Player] = [int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]
+        else:
+            if 120 - Total_balls == 0:
+                break
+            else:
+                BF = 120 - Total_balls
+                print("Number of Balls faced by the Player ",BF)
+                wickets +=1
+                runs += np.round(predict_run(location, BF, Pos, Opposition, Player))
+                Total_balls = Total_balls + BF
+                score_card[Player] = [int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]
+                break
+
+        print()
+        print()
+    score_card["Total Score"] = [int(runs), int(Total_balls)]
+    print("Runs Scored By Team  based on the Average performance of each Player  : ",np.round(runs), "with in ",Total_balls," Balls loosing ",wickets," Wickets")
+    return score_card
+
+
+
+
 
 
 
