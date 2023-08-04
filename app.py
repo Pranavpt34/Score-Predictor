@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import json
-import utils
+
 
 
 app = Flask(__name__)
@@ -160,34 +160,5 @@ def team_score(player_list,location,Opposition):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ =="__main__":
-    app.run(debug=True)
+    app.run(debug=False,host='0.0.0.0')
