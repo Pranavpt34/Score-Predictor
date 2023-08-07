@@ -1,94 +1,121 @@
 /* Add CSS style for the text and background */
 body {
-    /* display: flex;
+  /* display: flex;
     justify-content: center; */
-    height: 100vh;
-    /* background-color: #f0f0f0; Set the background color */
-    background-image: url('https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-    background-repeat: no-repeat; /* Prevent the background from repeating */
-    background-size: cover; /* Adjust the size of the background to cover the entire screen */
+  height: 100vh;
+  /* background-color: #f0f0f0; Set the background color */
+  background-image: url('https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+  background-repeat: no-repeat;
+  /* Prevent the background from repeating */
+  background-size: cover;
+  /* Adjust the size of the background to cover the entire screen */
+}
+
+nav {
+  background-color: #878589;
+  padding: 5px;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav li {
+  display: inline;
+  margin-right: 10px;
+}
+
+
+
+.score-predictor-heading {
+  white-space: nowrap;
+  padding-left: 2%;
+  padding-top: 2%;
+  text-align:left;
+  font-size: 30px; /* You can adjust the font size to your preference */
+  font-weight: bold; /* Make the text bold if desired */
+  color: #0f122b; /* Set the color to your desired value */
+  /* Add any other styling properties you want, like font-family, text-align, etc. */
 }
 
 /* Add CSS style for the color transition */
 .color-transition {
-    text-align: center;
-    font-size: 48px;
-    font-weight: bold;
-    color: #e5db01;
-    height: 10%; /* Set the height to match the height of the text container */
-    font-family: cursive;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: #e5db01;
+  height: 10%;
+  /* Set the height to match the height of the text container */
+  font-family: cursive;
 }
 
 /* Hide all letters by default */
 .hidden {
-    display: none;
-    /* color: white; */
+  display: none;
+  /* color: white; */
 }
-.dropdown {
-    margin-right: 20px;
-    font-family: cursive;
-    color: white;
-}
-#drop {
-    display: flex;
-    margin-top: 2%;
-    justify-content: space-evenly; /* Add the space between the dropdowns */
-    z-index: 9999; /* Ensure the dropdowns are on top of other elements */
-}
-.link{
-    float: right; /* Move the button to the right */
-    
-}
-/* .table{
-    --bs-table-bg: transparent !important;
-    --bs-table-color: white !important;
-} */
 
-/* 
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      } */
-  
-      table {
-        border-collapse: collapse;
-        width: 50%;
-        margin: 20px auto;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-  
-      th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: center;
-      }
-  
-      th {
-        background-color: #f2f2f2;
-      }
-  
-      tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-  
-      tr:hover {
-        background-color: #e1e1e1;
-      }
-  
-      th, td {
-        transition: background-color 0.3s;
-      }
-  
-      th:hover {
-        background-color: #ddd;
-      }
-  
-      caption {
-        font-size: 1.2em;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-    
+.dropdown {
+  margin-right: 20px;
+  font-family: cursive;
+  color: white;
+}
+
+#drop {
+  display: flex;
+  margin-top: 2%;
+  justify-content: space-evenly;
+  /* Add the space between the dropdowns */
+  z-index: 9999;
+  /* Ensure the dropdowns are on top of other elements */
+}
+
+.link {
+  float: right;
+  /* Move the button to the right */
+
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+  margin: 20px auto;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e1e1e1;
+}
+
+th,
+td {
+  transition: background-color 0.3s;
+}
+
+th:hover {
+  background-color: #ddd;
+}
+
+caption {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

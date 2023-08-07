@@ -57,23 +57,14 @@ def submit_players():
 
 
 
-@app.route('/submit_selection', methods=['POST'])
-def submit_selection():
+@app.route('/predict_score', methods=['POST'])
+def predict_score():
     data = request.json
     selected_team = data['selected_team']
     selected_player = data['selected_player']
     selected_ground = data['selected_ground']
     selected_opposition = data['selected_opposition']
-    # Process the selected data as required
-    print(f'Selected Team: {selected_team}')
-    print("Selected Player",selected_player)
-    print(f'Selected Ground: {selected_ground}')
-    print(f'Selected Opposition :{selected_opposition}')
-    import sklearn
-    print(sklearn.__version__)
-    import sys
-    print(sys.version)
-    
+
     predicted_scores = team_score(selected_player,selected_ground,selected_opposition)
     return jsonify(predicted_scores)
 
@@ -113,13 +104,12 @@ def team_score(player_list,location,Opposition):
         predict_column[loc_index_Opposition] = 1
         predict_column[loc_index_Player] = 1
 
-        print("Runs predicted by GB  without SR : ",gb_regressor_wo_sr.predict([predict_column])[0])
         return gb_regressor_wo_sr.predict([predict_column])[0]
 
     runs = 0
     Total_balls = 0
     wickets =0
-    score_card = {}
+    score_card = []
     for Player in player_list:
         BF= np.round(df_copy[(df_copy["Opposition"] == Opposition) & ((df_copy["Ground"] == location)&(df_copy["Player"] == Player))]["BF"].mean())
         if np.isnan(BF):
@@ -130,32 +120,30 @@ def team_score(player_list,location,Opposition):
                 BF = np.round(avg_performance_dict[Player]["BF"])
 
 
-        print("Player Name : ", Player)
         Pos = player_list.index(Player) + 1
         if (Total_balls + BF) <= 120:
             Total_balls = Total_balls + BF
             wickets += 1
-            print("Total Balls : ",Total_balls)
-            print("Number of Balls faced by the Player ",BF)
             runs += np.round(predict_run(location,BF,Pos,Opposition,Player))
-            score_card[Player] = [int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]
+           
+            player_data = {"name":Player,"score":[int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]}
         else:
             if 120 - Total_balls == 0:
                 break
             else:
                 BF = 120 - Total_balls
-                print("Number of Balls faced by the Player ",BF)
                 wickets +=1
                 runs += np.round(predict_run(location, BF, Pos, Opposition, Player))
                 Total_balls = Total_balls + BF
-                score_card[Player] = [int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]
+                
+                player_data = {"name":Player,"score":[int(np.round(predict_run(location, BF, Pos, Opposition, Player))),int(BF)]}
                 break
 
         print()
         print()
-    score_card["Total Score"] = [int(runs), int(Total_balls)]
-    print(score_card)
-    print("Runs Scored By Team  based on the Average performance of each Player  : ",np.round(runs), "with in ",Total_balls," Balls loosing ",wickets," Wickets")
+        score_card.append(player_data)
+    player_data = {"name":"Total Score","score": [int(runs), int(Total_balls)]}
+    score_card.append(player_data)
     return score_card
 
 

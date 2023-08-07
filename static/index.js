@@ -256,7 +256,7 @@ function submitSelection() {
     'selected_opposition': selectedOpposite
   };
   // window.location = window.location.href;
-  fetch('/submit_selection', {
+  fetch('/predict_score', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -267,10 +267,8 @@ function submitSelection() {
     .then(data => {
       console.log(data)
       const table = document.querySelector('.table')
-      console.log(table)
 
       function generateTable(data) {
-
         const table = document.getElementById("playerTable").getElementsByTagName('tbody')[0];
 
         while (table.firstChild) {
@@ -278,18 +276,19 @@ function submitSelection() {
         }
 
 
-        for (const player in data) {
-          if (data.hasOwnProperty(player)) {
-            const row = table.insertRow();
-            const playerCell = row.insertCell();
-            const scoreCell = row.insertCell();
-            const ballCell = row.insertCell();
+       data.forEach(player => {
+        console.log(player.name); // Log the name to check if it exists
+        const row = table.insertRow();
+        const playerCell = row.insertCell();
+        const scoreCell = row.insertCell();
+        const ballCell = row.insertCell();
 
-            playerCell.innerHTML = player;
-            scoreCell.innerHTML = data[player][0]; // Display the first element of the array (Run)
-            ballCell.innerHTML = data[player][1];  // Display the second element of the array (Ball)
-          }
-        }
+        // Print the data in the desired format to the console
+        playerCell.innerHTML = player.name;
+        scoreCell.innerHTML = player.score[0]; // Display the first element of the 'score' array (Run)
+        ballCell.innerHTML = player.score[1];  // Display the second element of the 'score' array (Ball)
+      });
+    
 
 
       }

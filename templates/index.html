@@ -6,9 +6,18 @@
     <title>Score Predictor</title>
     <link rel="stylesheet" href="static/styles.css"> <!-- Link the external CSS file -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <
+    
   </head>
 <body>
+  <nav>
+    <ul>
+      <li>
+        <h2 class="score-predictor-heading">Score Predictor</h2></li>
+        <li> <a href="https://app.powerbi.com/view?r=eyJrIjoiOWNhY2MxNjUtMjIwYi00YzA5LTgwNWUtYzc0Mzg4Y2U0ZTZlIiwidCI6ImVhMWUyYzgyLTAwZTItNGY5OS05Y2Q0LTRlNDY0OWZlNTczNyJ9&pageName=ReportSection" class="btn btn-primary link  me-3">Go to Dashboard</a></li>
+    </ul>
+  </nav>
+
+
     <div class="color-transition" id="text-container">
         <span class="hidden">C</span>
         <span class="hidden">r</span>
@@ -17,10 +26,7 @@
         <span class="hidden">k</span>
         <span class="hidden">e</span>
         <span class="hidden">t</span>
-        <a href="https://app.powerbi.com/view?r=eyJrIjoiOWNhY2MxNjUtMjIwYi00YzA5LTgwNWUtYzc0Mzg4Y2U0ZTZlIiwidCI6ImVhMWUyYzgyLTAwZTItNGY5OS05Y2Q0LTRlNDY0OWZlNTczNyJ9&pageName=ReportSection" class="btn btn-primary link mt-2 me-3">Go to Dashboard</a>
-    </div>
-
-
+        </div>
 
     <div id="drop">
     <div class="dropdown">
@@ -40,8 +46,8 @@
             <div class="btn-group">
             <button type="button" class="btn btn-secondary " aria-expanded="false">
               <div class="container">
-                <h4>Select Persons:</h4>
-                  <div class="form-group"  onchange="fetchOpposition()" id="checkboxContainer"></div>
+                <h6>Select Players</h6>
+                  <div class="form-group"  id="checkboxContainer"></div>
               </div>
             </button>
 
@@ -53,6 +59,8 @@
   <div class="dropdown">
     <label for="dropdown1">Select Opponent Team:</label>
     <div class="btn-group">
+      
+      <button type="button" class="btn btn-secondary " data-bs-toggle="dropdown" aria-expanded="false">
       <select id="opposition-dropdown" onchange="fetchGround()">
         <option value="" selected disabled>Select a team</option>
       </select>
@@ -84,8 +92,8 @@
   <thead>
     <tr>
       <th scope="col">Player</th>
-      <th scope="col">Run</th>
-      <th scope="col">ball</th>
+      <th scope="col">Runs</th>
+      <th scope="col">Balls</th>
     </tr>
   </thead>
   <tbody>
