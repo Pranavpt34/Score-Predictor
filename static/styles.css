@@ -4,15 +4,18 @@ body {
     justify-content: center; */
   height: 100vh;
   /* background-color: #f0f0f0; Set the background color */
-  background-image: url('https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+  background-image: url('https://img.freepik.com/premium-photo/participating-cricket-player-team-sri-lanka-vs-namibia-with-equipments-copy-space_1302-28734.jpg?w=1380');
   background-repeat: no-repeat;
   /* Prevent the background from repeating */
   background-size: cover;
   /* Adjust the size of the background to cover the entire screen */
+  
+  /*https://img.freepik.com/premium-photo/participating-cricket-player-team-sri-lanka-vs-namibia-with-equipments-copy-space_1302-28734.jpg?w=1380'
+   https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80*/
 }
 
 nav {
-  background-color: #878589;
+  background-color: #43077e;
   padding: 5px;
 }
 
@@ -36,19 +39,21 @@ nav li {
   text-align:left;
   font-size: 30px; /* You can adjust the font size to your preference */
   font-weight: bold; /* Make the text bold if desired */
-  color: #0f122b; /* Set the color to your desired value */
+  color: #e7e7ed; /* Set the color to your desired value */
   /* Add any other styling properties you want, like font-family, text-align, etc. */
 }
 
 /* Add CSS style for the color transition */
 .color-transition {
   text-align: center;
-  font-size: 48px;
-  font-weight: bold;
-  color: #e5db01;
+  font-size: 60px;
+  font-weight: bolder;
+  color: #ec4209e3;
   height: 10%;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); 
   /* Set the height to match the height of the text container */
-  font-family: cursive;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border: 1px solid #efe2e2;
 }
 
 /* Hide all letters by default */
@@ -59,8 +64,8 @@ nav li {
 
 .dropdown {
   margin-right: 20px;
-  font-family: cursive;
   color: white;
+  font-weight: bold;
 }
 
 #drop {
@@ -82,7 +87,8 @@ table {
   border-collapse: collapse;
   width: 50%;
   margin: 20px auto;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: rgba(217, 221, 226, 0.8); /* 50% transparent white */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -97,9 +103,9 @@ th {
   background-color: #f2f2f2;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color: #f2f2f2;
-}
+} */
 
 tr:hover {
   background-color: #e1e1e1;
