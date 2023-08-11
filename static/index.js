@@ -39,69 +39,9 @@ function fetchTeams() {
       });
     })
     .catch(error => console.error('Error fetching teams:', error));
+    
 }
 
-
-
-//fetch players
-// function fetchPlayers() {
-//   const selectedTeam = document.getElementById('team-dropdown').value;
-//   if (selectedTeam) {
-//     fetch('/get_players', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ 'selected_team': selectedTeam })
-//     })
-//       .then(response => response.json())
-//       .then(data => {
-//         const checkboxContainer = document.getElementById("checkboxContainer");
-//         checkboxContainer.innerHTML = ''; // Clear previous checkboxes
-
-//         data.players.forEach(player => {
-//           const checkboxDiv = createCheckbox(player);
-//           checkboxContainer.appendChild(checkboxDiv);
-//         });
-//       })
-//       .catch(error => console.error('Error fetching players:', error));
-//   }
-// }
-
-// // Function to create checkboxes
-// function createCheckbox(name) {
-//   const checkboxDiv = document.createElement("div");
-//   checkboxDiv.className = "form-check";
-
-//   const checkbox = document.createElement("input");
-//   checkbox.type = "checkbox";
-//   checkbox.className = "form-check-input";
-//   checkbox.name = "players"; // Change the name to 'players' for multiple checkboxes
-//   checkbox.value = name;
-
-//   const label = document.createElement("label");
-//   label.className = "form-check-label";
-//   label.textContent = name;
-
-//   checkboxDiv.appendChild(checkbox);
-//   checkboxDiv.appendChild(label);
-
-//   return checkboxDiv;
-// }
-
-
-// function updateSelectedPlayers() {
-  
-//   const checkedCheckboxes = document.querySelectorAll('input[name="players"]:checked');
-//   console.log(checkedCheckboxes)
-//   selectedPlayers = {}; // Clear the object
-
-//   checkedCheckboxes.forEach((checkbox, index) => {
-//     selectedPlayers[checkbox.value] = index + 1;
-//     console.log(checkbox.value)
-//   });
-//   console.log(selectedPlayers)
-// }
 
 
 const selectedPlayersOrder = []; // Array to store the selected players in order
@@ -165,13 +105,11 @@ function updateSelectedPlayers() {
   checkboxes.forEach(checkbox => {
     if (checkbox.checked) {
       selectedPlayersOrder.push(checkbox.value);
-      console.log(`${checkbox.value} is checked.`);
-    } else {
-      console.log(`${checkbox.value} is unchecked.`);
-    }
+      
+    } 
   });
 
-  console.log(selectedPlayersOrder);
+  
 }
 
 
@@ -277,7 +215,6 @@ function submitSelection() {
 
 
        data.forEach(player => {
-        console.log(player.name); // Log the name to check if it exists
         const row = table.insertRow();
         const playerCell = row.insertCell();
         const scoreCell = row.insertCell();
@@ -315,4 +252,3 @@ function submitSelection() {
 
 fetchTeams();
 fetchGrounds();
-fetchOpposition()

@@ -35,6 +35,8 @@ def get_opposition():
     data = request.json
     selected_team = data['selected_team']
     opposition = df['Opposition'].unique().tolist()
+    print("selected",selected_team)
+    print(opposition)
     opposition_team = [country for country in opposition if country != selected_team]
     return jsonify({'opposition': opposition_team})
 
